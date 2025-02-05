@@ -1,0 +1,15 @@
+#ifndef @K_INCLUDE_GUARD@
+#define @K_INCLUDE_GUARD@
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <dpu.h>
+DPU_INCBIN(mylib_kernel_@K_NAME@, "@CMAKE_INSTALL_PREFIX@/bin/@K_NAME@")
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // @K_INCLUDE_GUARD@
