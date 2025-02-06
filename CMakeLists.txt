@@ -15,6 +15,21 @@ set(MYLIB_NR_TASKLETS 16 CACHE STRING "Number of tasklets per DPU (v1A: 24, v1B:
 set(MYLIB_MIN_XFER_SZ 8 CACHE STRING "Minimum memory tranfer size (bytes)")
 
 ##############################################################################
+# Options
+
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    option(mylib_ENABLE_IPO "Enable IPO" ON)
+else()
+    option(mylib_ENABLE_IPO "Enable IPO" OFF)
+    mark_as_advanced(mylib_ENABLE_IPO)
+endif()
+
+if(mylib_ENABLE_IPO)
+    include(InterproceduralOptimization)
+    mylib_enable_ipo()
+endif()
+
+##############################################################################
 # Dependencies
 
 find_package(DPU 2025.1 REQUIRED)
@@ -39,6 +54,7 @@ externalproject_add(mylib_kernel
         -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
         -DCMAKE_TOOLCHAIN_FILE=${DPU_TOOLCHAIN_FILE}
         -DCMAKE_MODULE_PATH=${MYLIB_KERNEL_MODULE_PATH}
+        -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=${CMAKE_INTERPROCEDURAL_OPTIMIZATION}
         -DNR_TASKLETS=${MYLIB_NR_TASKLETS}
     BUILD_ALWAYS TRUE)
 
