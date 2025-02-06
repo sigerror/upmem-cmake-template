@@ -1,5 +1,6 @@
 add_library(mylib src/mylib.cpp)
 add_library(mylib::mylib ALIAS mylib)
+add_dependencies(mylib mylib_kernel)
 
 set_target_properties(mylib PROPERTIES
     SOVERSION ${mylib_VERSION_MAJOR}
