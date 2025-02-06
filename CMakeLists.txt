@@ -5,7 +5,7 @@ project(mylib
     HOMEPAGE_URL "https://github.com/sigerror/upmem-cmake-template"
     LANGUAGES C CXX)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 ##############################################################################
 # Configuration
@@ -28,14 +28,17 @@ endif()
 ##############################################################################
 # Kernel binaries
 
+string(REPLACE ";" "," MYLIB_KERNEL_MODULE_PATH "${CMAKE_MODULE_PATH}")
+
 include(ExternalProject)
 externalproject_add(mylib_kernel
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/kernel
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/kernel
+    LIST_SEPARATOR ","
     CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
         -DCMAKE_TOOLCHAIN_FILE=${DPU_TOOLCHAIN_FILE}
-        -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
+        -DCMAKE_MODULE_PATH=${MYLIB_KERNEL_MODULE_PATH}
         -DNR_TASKLETS=${MYLIB_NR_TASKLETS}
     BUILD_ALWAYS TRUE)
 
