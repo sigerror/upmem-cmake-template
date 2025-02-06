@@ -4,6 +4,7 @@ project(mylib_tests LANGUAGES C CXX)
 add_executable(tests tests.cpp)
 target_link_libraries(tests
     PRIVATE mylib::mylib
+            mylib::mylib_warnings
             Catch2::Catch2WithMain)
 
 include(${Catch2_SOURCE_DIR}/extras/Catch.cmake)

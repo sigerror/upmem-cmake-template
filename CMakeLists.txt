@@ -43,6 +43,14 @@ externalproject_add(mylib_kernel
     BUILD_ALWAYS TRUE)
 
 ##############################################################################
+# Compiler warnings
+
+include(CompilerWarnings)
+add_library(mylib_warnings INTERFACE)
+add_library(mylib::mylib_warnings ALIAS mylib_warnings)
+mylib_set_compiler_warnings(mylib_warnings)
+
+##############################################################################
 # Host library
 
 add_subdirectory(mylib)

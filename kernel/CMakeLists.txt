@@ -1,11 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
 project(mylib_kernel LANGUAGES C)
 
-set(KERNEL_SOURCES src/sum.c)
+include(CompilerWarnings)
+add_library(mylib_kernel_warnings INTERFACE)
+mylib_set_compiler_warnings(mylib_kernel_warnings)
 
+set(KERNEL_SOURCES src/sum.c)
 foreach(K_SOURCE IN LISTS KERNEL_SOURCES)
     get_filename_component(K_NAME ${K_SOURCE} NAME_WE)
     add_executable(${K_NAME} ${K_SOURCE})
+    target_link_libraries(${K_NAME} PRIVATE mylib_kernel_warnings)
     target_compile_definitions(${K_NAME} PRIVATE NR_TASKLETS=${NR_TASKLETS})
     target_link_options(${K_NAME} PRIVATE -DNR_TASKLETS=${NR_TASKLETS})
     

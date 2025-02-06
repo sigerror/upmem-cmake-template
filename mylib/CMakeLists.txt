@@ -18,7 +18,8 @@ target_compile_definitions(mylib
 target_compile_features(mylib PRIVATE c_std_99 cxx_std_17)
 
 target_link_libraries(mylib
-    PRIVATE OpenMP::OpenMP_CXX
+    PRIVATE mylib::mylib_warnings
+            OpenMP::OpenMP_CXX
             UPMEM::DPU)
 
 target_include_directories(mylib
